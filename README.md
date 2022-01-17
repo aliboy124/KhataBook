@@ -1,10 +1,10 @@
 # KhataBook
 KhataBook - A repository for semester project of Mobile Computing taught by Sir Haq Nawaz.
 # Contributors:
-Muhammad Ali - bsef18a524
-Adeel Saleem - bsef18a519
-Muhammad Hasher - bsef18a513
-Ali Iftikhar Butt - bsef18a530
+* Muhammad Ali - bsef18a524
+* Adeel Saleem - bsef18a519
+* Muhammad Hasher - bsef18a513
+* Ali Iftikhar Butt - bsef18a530
 
 # What is KhataBook?
 KhataBook is an app developed to help in bookkeeping.
