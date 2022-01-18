@@ -8,9 +8,9 @@
 
     <TextView
         android:id="@+id/negative"
-        android:layout_width="205dp"
+        android:layout_width="364dp"
         android:layout_height="64dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/amaranth_bold"
         android:text="Rs. 0"
@@ -18,8 +18,6 @@
         android:textColor="#F44336"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/positive"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
@@ -41,17 +39,17 @@
 
     <TextView
         android:id="@+id/positive"
-        android:layout_width="205dp"
+        android:layout_width="364dp"
         android:layout_height="64dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:background="#FFFFFF"
         android:fontFamily="@font/amaranth_bold"
         android:text="Rs. 0"
         android:textAlignment="center"
         android:textColor="#4CAF50"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:layout_editor_absoluteX="3dp" />
 
     <Button
         android:id="@+id/logout"
@@ -75,55 +73,51 @@
 
     <Button
         android:id="@+id/showall"
-        android:layout_width="110dp"
+        android:layout_width="242dp"
         android:layout_height="51dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
         android:backgroundTint="#FFFFFF"
         android:fontFamily="@font/amaranth_bold"
         android:text="Show All"
         android:textColor="#000000"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/showunapproved"
         app:layout_constraintTop_toBottomOf="@+id/positive" />
 
     <Button
         android:id="@+id/showunapproved"
-        android:layout_width="145dp"
+        android:layout_width="242dp"
         android:layout_height="51dp"
-        android:layout_marginTop="16dp"
         android:backgroundTint="#FFFFFF"
         android:fontFamily="@font/amaranth_bold"
         android:text="Show Unapproved"
         android:textColor="#000000"
         android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/showall"
-        app:layout_constraintTop_toBottomOf="@+id/positive" />
+        app:layout_constraintEnd_toStartOf="@+id/showunpiad"
+        app:layout_constraintTop_toBottomOf="@+id/negative" />
 
     <Button
         android:id="@+id/showunpiad"
-        android:layout_width="120dp"
+        android:layout_width="243dp"
         android:layout_height="51dp"
-        android:layout_marginTop="16dp"
         android:backgroundTint="#FFFFFF"
         android:fontFamily="@font/amaranth_bold"
         android:text="Show Unpaid"
         android:textColor="#000000"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/showunapproved"
-        app:layout_constraintTop_toBottomOf="@+id/positive" />
+        app:layout_constraintTop_toBottomOf="@+id/negative" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="402dp"
-        android:layout_height="394dp"
+        android:layout_width="730dp"
+        android:layout_height="198dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showunapproved" />
+        app:layout_constraintTop_toBottomOf="@+id/showunapproved"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/add"
@@ -135,11 +129,8 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:cornerRadius="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/logout"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
