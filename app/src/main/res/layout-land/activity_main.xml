@@ -81,7 +81,7 @@
         android:textColor="#000000"
         android:textSize="10sp"
         app:layout_constraintEnd_toStartOf="@+id/showunapproved"
-        tools:layout_editor_absoluteY="147dp" />
+        app:layout_constraintTop_toBottomOf="@+id/positive" />
 
     <Button
         android:id="@+id/showunapproved"
@@ -92,8 +92,8 @@
         android:text="Show Unapproved"
         android:textColor="#000000"
         android:textSize="10sp"
-        tools:layout_editor_absoluteX="244dp"
-        tools:layout_editor_absoluteY="147dp" />
+        app:layout_constraintEnd_toStartOf="@+id/showunpiad"
+        app:layout_constraintTop_toBottomOf="@+id/negative" />
 
     <Button
         android:id="@+id/showunpiad"
@@ -104,8 +104,8 @@
         android:text="Show Unpaid"
         android:textColor="#000000"
         android:textSize="10sp"
-        tools:layout_editor_absoluteX="487dp"
-        tools:layout_editor_absoluteY="147dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/negative" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
