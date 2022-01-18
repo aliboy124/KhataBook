@@ -3,11 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout-land/activity_login.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout-land/activity_main.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout-land/activity_new_transaction.xml" value="0.20572916666666666" />
+        <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/activity_new_transaction.xml" value="0.25" />
-        <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/activity_signup.xml" value="0.19074074074074074" />
+        <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/activity_signup.xml" value="0.33" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/searchperson.xml" value="0.19074074074074074" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/transactionlist.xml" value="0.25" />
         <entry key="..\:/Users/Muhammad Hasher/AndroidStudioProjects/KhataBook/app/src/main/res/layout/transactionlistitem.xml" value="0.25" />
