@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), Signup.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
 
             }

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ public class Signup extends AppCompatActivity {
     private FirebaseAuth auth;
     FirebaseDatabase database;
     EditText name, emailAddress, password, confirmPassword;
+    TextView gotologin;
     Button signup;
 
     @Override
@@ -37,6 +39,7 @@ public class Signup extends AppCompatActivity {
         password = findViewById(R.id.TextPassword);
         confirmPassword = findViewById(R.id.ConfirmPass);
         signup = findViewById(R.id.signup);
+        gotologin = findViewById(R.id.textView3);
 
         auth = FirebaseAuth.getInstance();
 
@@ -44,6 +47,14 @@ public class Signup extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
+
+        gotologin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+            }
+        });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
