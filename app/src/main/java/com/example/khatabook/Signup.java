@@ -17,12 +17,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.regex.Pattern;
+
 
 public class Signup extends AppCompatActivity {
 
     private FirebaseAuth auth;
     FirebaseDatabase database;
-    EditText name, username, password, confirmPassword;
+    EditText name, emailAddress, password, confirmPassword;
     Button signup;
 
     @Override
@@ -31,7 +33,7 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         name = findViewById(R.id.PersonName);
-        username = findViewById(R.id.username);
+        emailAddress = findViewById(R.id.EmailAddress);
         password = findViewById(R.id.TextPassword);
         confirmPassword = findViewById(R.id.ConfirmPass);
         signup = findViewById(R.id.signup);
@@ -47,14 +49,32 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String usernamee = username.getText().toString();
+                String username = name.getText().toString();
+                String email = emailAddress.getText().toString();
                 String passwordd = password.getText().toString();
                 String confirmpasswordd = confirmPassword.getText().toString();
 
 
-                if(TextUtils.isEmpty(usernamee)){
-                    username.setError("Username is required!");
+                String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                        "[a-zA-Z0-9_+&*-]+)*@" +
+                        "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                        "A-Z]{2,7}$";
+
+                Pattern pat = Pattern.compile(emailRegex);
+
+                if(TextUtils.isEmpty(username)){
+                    emailAddress.setError("Name is required!");
                     return;
+                }
+                if(TextUtils.isEmpty(email)){
+                    emailAddress.setError("Email is required!");
+                    return;
+                }
+                else {
+                    if (!pat.matcher(email).matches()){
+                        Toast.makeText(getApplicationContext(), "Invalid email!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
                 if(TextUtils.isEmpty(passwordd)){
                     password.setError("Password is required!");
@@ -74,7 +94,7 @@ public class Signup extends AppCompatActivity {
                 }
 
 
-                auth.createUserWithEmailAndPassword(usernamee, passwordd ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                auth.createUserWithEmailAndPassword(email, passwordd ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
