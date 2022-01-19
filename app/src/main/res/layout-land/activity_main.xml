@@ -22,15 +22,16 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="210dp"
+        android:layout_width="wrap_content"
         android:layout_height="54dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/coiny"
         android:text="Name"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -51,10 +52,57 @@
         app:layout_constraintTop_toBottomOf="@+id/name"
         tools:layout_editor_absoluteX="3dp" />
 
+    <LinearLayout
+        android:id="@+id/tabs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/positive">
+
+
+        <Button
+            android:id="@+id/showall"
+            android:layout_width="wrap_content"
+            android:layout_height="51dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/amaranth_bold"
+            android:text="Show All"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/showunapproved"
+            android:layout_width="wrap_content"
+            android:layout_height="51dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/amaranth_bold"
+            android:text="Show Unapproved"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/showunpiad"
+            android:layout_width="wrap_content"
+            android:layout_height="51dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/amaranth_bold"
+            android:text="Show Unpaid"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/logout"
-        android:layout_width="98dp"
-        android:layout_height="42dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F44336"
@@ -62,7 +110,7 @@
         android:text="Logout"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:cornerRadius="40dp"
         app:layout_constraintBottom_toTopOf="@+id/negative"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,66 +119,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/showall"
-        android:layout_width="242dp"
-        android:layout_height="51dp"
-        android:backgroundTint="#FFFFFF"
-        android:fontFamily="@font/amaranth_bold"
-        android:text="Show All"
-        android:textColor="#000000"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@+id/showunapproved"
-        app:layout_constraintTop_toBottomOf="@+id/positive" />
-
-    <Button
-        android:id="@+id/showunapproved"
-        android:layout_width="242dp"
-        android:layout_height="51dp"
-        android:backgroundTint="#FFFFFF"
-        android:fontFamily="@font/amaranth_bold"
-        android:text="Show Unapproved"
-        android:textColor="#000000"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@+id/showunpiad"
-        app:layout_constraintTop_toBottomOf="@+id/negative" />
-
-    <Button
-        android:id="@+id/showunpiad"
-        android:layout_width="243dp"
-        android:layout_height="51dp"
-        android:backgroundTint="#FFFFFF"
-        android:fontFamily="@font/amaranth_bold"
-        android:text="Show Unpaid"
-        android:textColor="#000000"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/negative" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="730dp"
         android:layout_height="198dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/showunapproved"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/add"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="#4CAF50"
         android:text="+"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
         app:cornerRadius="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/logout"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
