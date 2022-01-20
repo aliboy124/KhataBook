@@ -49,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EmailEnter" />
+        app:layout_constraintTop_toBottomOf="@+id/EmailAddress" />
 
     <TextView
         android:id="@+id/passwordconfirm"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameS" />
 
     <EditText
-        android:id="@+id/EmailEnter"
+        android:id="@+id/EmailAddress"
         android:layout_width="729dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -114,17 +114,24 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordconfirm" />
 
     <Button
-        android:id="@+id/siginupp"
+        android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:backgroundTint="#2196F3"
         android:text="Sign Up"
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ConfirmPass"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/ConfirmPass" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already registered? Login here"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/signup"
+        app:layout_constraintTop_toBottomOf="@+id/ConfirmPass" />
 </androidx.constraintlayout.widget.ConstraintLayout>
