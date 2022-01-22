@@ -19,5 +19,4 @@ public class Transaction {
         this.approved = approved;
         this.paid = paid;
     }
-
 }

@@ -29,7 +29,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/coiny"
-        android:text="Name"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#000000"
@@ -145,5 +144,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/notification"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="5dp"
+        android:autoText="false"
+        android:backgroundTint="#CA291E"
+        android:fontFamily="@font/amaranth_bold"
+        android:text="500"
+        android:textAlignment="textStart"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:icon="@android:drawable/sym_action_email"
+        app:iconPadding="0dp"
+        app:iconTint="#6E0000"
+        app:layout_constraintEnd_toStartOf="@+id/logout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#DF3737" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
