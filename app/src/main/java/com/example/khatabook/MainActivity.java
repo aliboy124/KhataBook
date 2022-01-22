@@ -75,13 +75,24 @@ public class MainActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), NewTransaction.class));
+
+                Intent intent = new Intent(getApplicationContext(), NewTransaction.class);
+
+                intent.putExtra("name",currentUser.getName());
+                intent.putExtra("email",currentUser.getEmail());
+                intent.putExtra("password",currentUser.getPassword());
+                intent.putExtra("neg",currentUser.getNegBalance());
+                intent.putExtra("pos",currentUser.getPosBalance());
+
+                startActivity(intent);
+
             }
         });
         logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 auth.signOut();
+
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
             }
