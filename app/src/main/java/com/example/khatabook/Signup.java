@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
@@ -24,7 +25,7 @@ import java.util.regex.Pattern;
 public class Signup extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    FirebaseDatabase database;
+    DatabaseReference database;
     EditText name, emailAddress, password, confirmPassword;
     TextView gotologin;
     Button signup;
@@ -42,6 +43,7 @@ public class Signup extends AppCompatActivity {
         gotologin = findViewById(R.id.textView3);
 
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
 
         if(auth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -109,22 +111,16 @@ public class Signup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-//                                    Users user = new Users(
-//                                            binding.edUser.getText().toString(),
-//                                            binding.edEmail.getText().toString(),
-//                                            binding.edPassword.getText().toString()
-//                                    );
-//                                    String id = task.getResult().getUser().getUid();
-//                                    database.getReference().child("Users").child(id).setValue(user);
+                            User user = new User(username, email, passwordd, 0, 0 );
+                            String id = task.getResult().getUser().getUid();
+                            database.child(id).setValue(user);
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Toast.makeText(getApplicationContext(), "Account created!", Toast.LENGTH_SHORT).show();
 
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-
                         }
-
                     }
                 });
             }
