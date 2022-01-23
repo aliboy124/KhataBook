@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
@@ -24,8 +26,9 @@ import java.util.regex.Pattern;
 public class Signup extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    FirebaseDatabase database;
+    DatabaseReference database;
     EditText name, emailAddress, password, confirmPassword;
+    ProgressBar p;
     TextView gotologin;
     Button signup;
 
@@ -40,8 +43,11 @@ public class Signup extends AppCompatActivity {
         confirmPassword = findViewById(R.id.ConfirmPass);
         signup = findViewById(R.id.signup);
         gotologin = findViewById(R.id.textView3);
+        p = (ProgressBar) findViewById(R.id.progressBar);
+
 
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference().child("Users");
 
         if(auth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -59,6 +65,7 @@ public class Signup extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 String username = name.getText().toString();
                 String email = emailAddress.getText().toString();
@@ -105,26 +112,30 @@ public class Signup extends AppCompatActivity {
                 }
 
 
+                p.setVisibility(View.VISIBLE);
+                signup.setVisibility(View.GONE);
+
                 auth.createUserWithEmailAndPassword(email, passwordd ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-//                                    Users user = new Users(
-//                                            binding.edUser.getText().toString(),
-//                                            binding.edEmail.getText().toString(),
-//                                            binding.edPassword.getText().toString()
-//                                    );
-//                                    String id = task.getResult().getUser().getUid();
-//                                    database.getReference().child("Users").child(id).setValue(user);
+
+                            User user = new User(username, email, passwordd, 0, 0 );
+                            String id = task.getResult().getUser().getUid();
+                            database.child(id).setValue(user);
+
+                            p.setVisibility(View.GONE);
+                            signup.setVisibility(View.VISIBLE);
+
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Toast.makeText(getApplicationContext(), "Account created!", Toast.LENGTH_SHORT).show();
 
                         }
                         else {
+                            p.setVisibility(View.GONE);
+                            signup.setVisibility(View.VISIBLE);
                             Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
-
                         }
-
                     }
                 });
             }
