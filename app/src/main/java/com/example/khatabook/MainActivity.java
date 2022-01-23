@@ -3,6 +3,8 @@ package com.example.khatabook;
 import java.util.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,6 +26,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    List<Transaction> transactionList = new ArrayList<Transaction>();
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -97,5 +105,34 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //// setting transaction list using custom method call at the end and data from firebase
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                transactionList.clear();
+
+                for (DataSnapshot dsp : snapshot.getChildren()) {
+                    transactionList.add((dsp.getValue(Transaction.class)));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        setTransactionListAdapter();
+    }
+
+    public void setTransactionListAdapter(){
+        recyclerView = findViewById(R.id.recyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this);
+        recyclerView.setAdapter(adapter);
     }
 }
