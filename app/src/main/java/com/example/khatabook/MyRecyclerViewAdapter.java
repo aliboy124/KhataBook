@@ -53,7 +53,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(v.getContext(), "HEHAS", Toast.LENGTH_SHORT).show();
-                            }
+                            }hhhjhj
                         })
 
                         .setNegativeButton(android.R.string.no, null)
