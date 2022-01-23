@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         TextView pos = findViewById(R.id.positive);
         TextView neg = findViewById(R.id.negative);
         Button showAll = findViewById(R.id.showall);
+        Button showUnapproved = findViewById(R.id.showunapproved);
+        Button showUnpaid = findViewById(R.id.showunpiad);
 
         User currentUser = new User();
 
@@ -139,6 +141,57 @@ public class MainActivity extends AppCompatActivity {
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
                             transactionList.add((dsp.getValue(Transaction.class)));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                setTransactionListAdapter();
+            }
+        });
+
+        // show unapproved and show unpaid buttons
+        showUnapproved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        transactionList = new ArrayList<Transaction>();
+
+                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                            if(!dsp.getValue(Transaction.class).isApproved())
+                                transactionList.add((dsp.getValue(Transaction.class)));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                setTransactionListAdapter();
+            }
+        });
+
+        showUnpaid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        transactionList = new ArrayList<Transaction>();
+
+                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                            if(!dsp.getValue(Transaction.class).isPaid())
+                                transactionList.add((dsp.getValue(Transaction.class)));
                         }
                     }
 
