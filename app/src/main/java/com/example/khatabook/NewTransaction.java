@@ -178,10 +178,10 @@ public class NewTransaction extends AppCompatActivity {
 
                             newTransaction.setApproved(false);
                             newTransaction.setPaid(false);
-                            newTransaction.setTime(String.valueOf(dateTime));
 
                             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH:mm:ss");
                             String formatDateTime = dateTime.format(format);
+                            newTransaction.setTime(formatDateTime);
                             database.child(formatDateTime).setValue(newTransaction);
                             Toast.makeText(getApplicationContext(), "Transaction created!", Toast.LENGTH_SHORT).show();
 

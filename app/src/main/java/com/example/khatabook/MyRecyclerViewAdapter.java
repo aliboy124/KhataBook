@@ -13,16 +13,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
 
     List<Transaction> transactionList;
     Activity mAct;
+    User currentUser;
 
-    public MyRecyclerViewAdapter(List<Transaction> transactionList, Activity mAct) {
+    public MyRecyclerViewAdapter(List<Transaction> transactionList, Activity mAct, User currentUser) {
         this.transactionList = transactionList;
         this.mAct = mAct;
+        this.currentUser = currentUser;
     }
 
     @NonNull
@@ -43,6 +48,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.approvedT.setChecked(holder.data.isApproved());
         holder.paidT.setChecked(holder.data.isPaid());
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+
+        // if current user is receiver then show approval dialog
+        if(!holder.data.isApproved() && holder.data.getReceiver().getEmail().equals(currentUser.getEmail()))
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +61,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(v.getContext(), "HEHAS", Toast.LENGTH_SHORT).show();
+                                ref.child(holder.data.getTime()).child("approved").setValue(true);
+                                Toast.makeText(v.getContext(), "Transaction Approved", Toast.LENGTH_SHORT).show();
                             }
                         })
 
@@ -61,6 +71,28 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         .show();
             }
         });
+        // if current user is sender then show paid dialog
+        if(holder.data.isApproved() &&
+                !holder.data.isPaid() && holder.data.getSender().getEmail().equals(currentUser.getEmail()))
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("Confirm Payment")
+                            .setMessage("Are you sure you want to make this transaction paid?")
+
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ref.child(holder.data.getTime()).child("paid").setValue(true);
+                                    Toast.makeText(v.getContext(), "Transaction Paid", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(R.drawable.logo)
+                            .show();
+                }
+            });
     }
 
     @Override

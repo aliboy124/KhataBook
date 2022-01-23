@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    public User currentUser;
 
     List<Transaction> transactionList = new ArrayList<Transaction>();
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Button showUnapproved = findViewById(R.id.showunapproved);
         Button showUnpaid = findViewById(R.id.showunpiad);
 
-        User currentUser = new User();
+        currentUser = new User();
 
         auth = FirebaseAuth.getInstance();
 
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this);
+        adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this,currentUser);
         recyclerView.setAdapter(adapter);
     }
 }
