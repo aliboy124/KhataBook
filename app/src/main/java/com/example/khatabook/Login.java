@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth auth;
     EditText emailAddress, password;
     Button signin, signup;
+    ProgressBar p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.PasswordText);
         signin = findViewById(R.id.login);
         signup = findViewById(R.id.signup);
+        p = findViewById(R.id.progressBar2);
 
         auth = FirebaseAuth.getInstance();
 
@@ -52,6 +55,8 @@ public class Login extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
 
                 String email = emailAddress.getText().toString();
                 String passwordd = password.getText().toString();
@@ -78,15 +83,27 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
+                p.setVisibility(View.VISIBLE);
+                signin.setVisibility(View.GONE);
+                signup.setVisibility(View.GONE);
+
                 auth.signInWithEmailAndPassword(email, passwordd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+
+                            p.setVisibility(View.GONE);
+                            signin.setVisibility(View.VISIBLE);
+                            signup.setVisibility(View.VISIBLE);
+
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Toast.makeText(getApplicationContext(), "Logged in!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                         else {
+                            p.setVisibility(View.GONE);
+                            signin.setVisibility(View.VISIBLE);
+                            signup.setVisibility(View.VISIBLE);
                             Toast.makeText(getApplicationContext(), "Email or password is incorrect!", Toast.LENGTH_SHORT).show();
                             password.setText("");
                         }
