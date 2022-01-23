@@ -1,9 +1,11 @@
 package com.example.khatabook;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -19,17 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class NewTransaction extends AppCompatActivity {
-
-
-    public static <K, V> Map<K, V> copyMap(Map<K, V> original)
-    {
-        return new HashMap<>(original);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +42,7 @@ public class NewTransaction extends AppCompatActivity {
 
         User user = new User();
         User userReceiver = new User();
+        Transaction newTransaction = new Transaction();
 
 
         final Bundle[] extras = {getIntent().getExtras()};
@@ -57,10 +56,21 @@ public class NewTransaction extends AppCompatActivity {
 
             sender.setText(user.getEmail());
             sender.setEnabled(false);
+            if (sender.getText().toString().equals("")){
+                finish();
+                Toast.makeText(getApplicationContext(), "Please wait!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else {
+            finish();
+            Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        final DataSnapshot dataSnapshot;
+        final DataSnapshot[] dataSnapshot = new DataSnapshot[1];
 
         DatabaseReference dbreference = FirebaseDatabase.getInstance().getReference();
         dbreference = dbreference.child("Users");
@@ -69,32 +79,7 @@ public class NewTransaction extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-
-                 dataSnapshot = snapshot;
-
-                if (snapshot.exists()){
-                    HashMap<String, Object> dataMap = (HashMap<String, Object>) snapshot.getValue();
-
-                    for (String key : dataMap.keySet()){
-
-                        Object data = dataMap.get(key);
-                        HashMap<String, Object> userData = (HashMap<String, Object>) data;
-
-                        String temp = userData.get("email").toString();
-                        if ( temp == receiver.getText().toString())
-                        {
-                            userReceiver.setEmail(userData.get("email").toString());
-                            userReceiver.setName(userData.get("name").toString());
-                            userReceiver.setPassword(userData.get("name").toString());
-                            userReceiver.setNegBalance(Integer.parseInt(userData.get("negBalance").toString()));
-                            userReceiver.setPosBalance(Integer.parseInt(userData.get("posBalance").toString()));
-                            break;
-                        }
-                    }
-
-
-
-                }
+                 dataSnapshot[0] = snapshot;
             }
 
             @Override
@@ -103,36 +88,111 @@ public class NewTransaction extends AppCompatActivity {
             }
         });
 
-
-
-
-
         receiver.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-
+                if (!hasFocus)
+                {
                     if (!receiver.getText().toString().equals(""))
                     {
                         if(receiver.getText().toString().equals(user.getEmail()))
                         {
-                            Toast.makeText(getApplicationContext(), "Sender and receiver cant be same!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Sender and receiver can't be same!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
+                        boolean bool = false;
+                        if (dataSnapshot[0].exists()){
+                            HashMap<String, Object> dataMap = (HashMap<String, Object>) dataSnapshot[0].getValue();
+
+                            for (String key : dataMap.keySet()){
+                                Object data = dataMap.get(key);
+                                HashMap<String, Object> userData = (HashMap<String, Object>) data;
+
+                                String temp = userData.get("email").toString();
+                                if (temp.equals(receiver.getText().toString()))
+                                {
+                                    userReceiver.setEmail(userData.get("email").toString());
+                                    userReceiver.setName(userData.get("name").toString());
+                                    userReceiver.setPassword(userData.get("name").toString());
+                                    userReceiver.setNegBalance(Integer.parseInt(userData.get("negBalance").toString()));
+                                    userReceiver.setPosBalance(Integer.parseInt(userData.get("posBalance").toString()));
+                                    bool=true;
+                                    break;
+                                }
+                            }
+
+                        }
+
+                        if(!bool){
+                            Toast.makeText(getApplicationContext(), "\"" + receiver.getText().toString() + "\" do not exist in our database!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Receiver email is required!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
 
-//        submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
 
+                if(user.getEmail() != null)
+                {
+                    if(userReceiver.getEmail() != null)
+                    {
+                        if (!amount.getText().toString().equals(""))
+                        {
+                            try{
+                                int transaction_amount = 0;
+
+                                transaction_amount = Integer.parseInt(amount.getText().toString());
+                                if(transaction_amount > 0){
+                                    newTransaction.setAmount(transaction_amount);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "Amount shouldn't be 0!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                            catch (Exception e){
+                                Toast.makeText(getApplicationContext(), "Amount invalid!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Transactions");
+
+                            LocalDateTime dateTime = LocalDateTime.now();
+                            newTransaction.setSender(user);
+                            newTransaction.setSender(userReceiver);
+
+                            newTransaction.setApproved(false);
+                            newTransaction.setPaid(false);
+                            newTransaction.setTime(dateTime);
+
+                            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH:mm:ss");
+                            String formatDateTime = dateTime.format(format);
+                            database.child(formatDateTime).setValue(newTransaction);
+                            Toast.makeText(getApplicationContext(), "Transaction created!", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Amount required!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Could not found receiver email!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Could not found sender user!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
     }
 }
