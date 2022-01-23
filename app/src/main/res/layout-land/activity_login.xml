@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PasswordText" />
+
     <TextView
         android:id="@+id/email"
         android:layout_width="729dp"
@@ -57,8 +68,8 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:backgroundTint="#673AB7"
         android:text="Login"
         android:textSize="24sp"
@@ -70,8 +81,8 @@
 
     <Button
         android:id="@+id/signup"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:backgroundTint="#00BCD4"
         android:text="Sign Up"
         android:textSize="24sp"

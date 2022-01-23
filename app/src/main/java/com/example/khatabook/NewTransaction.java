@@ -114,22 +114,29 @@ public class NewTransaction extends AppCompatActivity {
                                 {
                                     userReceiver.setEmail(userData.get("email").toString());
                                     userReceiver.setName(userData.get("name").toString());
-                                    userReceiver.setPassword(userData.get("name").toString());
+                                    userReceiver.setPassword(userData.get("password").toString());
                                     userReceiver.setNegBalance(Integer.parseInt(userData.get("negBalance").toString()));
                                     userReceiver.setPosBalance(Integer.parseInt(userData.get("posBalance").toString()));
                                     bool=true;
                                     break;
                                 }
                             }
-
                         }
 
                         if(!bool){
                             Toast.makeText(getApplicationContext(), "\"" + receiver.getText().toString() + "\" do not exist in our database!", Toast.LENGTH_SHORT).show();
+                            bool = false;
+                            receiver.setText("");
+                            userReceiver.setEmail(null);
+                            userReceiver.setName(null);
+                            userReceiver.setPassword(null);
+                            userReceiver.setNegBalance(0);
+                            userReceiver.setPosBalance(0);
                         }
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "Receiver email is required!", Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -167,7 +174,7 @@ public class NewTransaction extends AppCompatActivity {
 
                             LocalDateTime dateTime = LocalDateTime.now();
                             newTransaction.setSender(user);
-                            newTransaction.setSender(userReceiver);
+                            newTransaction.setReceiver(userReceiver);
 
                             newTransaction.setApproved(false);
                             newTransaction.setPaid(false);
