@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameT" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/amountT"
         android:layout_width="90dp"
         android:layout_height="31dp"
         android:layout_marginTop="16dp"
@@ -41,39 +41,40 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/approvedT"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/givetake"
+        android:id="@+id/timeT"
         android:layout_width="90dp"
         android:layout_height="31dp"
         android:layout_marginTop="4dp"
-        android:text="Give"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/checkBox2"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintStart_toEndOf="@+id/paidT"
+        app:layout_constraintTop_toBottomOf="@+id/amountT" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/approvedT"
         android:layout_width="90dp"
         android:layout_height="31dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
+        android:clickable="false"
         android:text="Approve"
         app:layout_constraintStart_toEndOf="@+id/nameT"
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/paidT"
         android:layout_width="90dp"
         android:layout_height="31dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
+        android:clickable="false"
         android:text="Paid"
         app:layout_constraintStart_toEndOf="@+id/emailT"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintTop_toBottomOf="@+id/approvedT" />
 </androidx.constraintlayout.widget.ConstraintLayout>
