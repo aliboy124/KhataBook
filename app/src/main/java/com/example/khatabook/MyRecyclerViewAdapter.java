@@ -72,7 +72,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                                            Log.e("LOOP-ITR-","AHSJHAJSNCLASJ");
                                             User temp = dsp.getValue(User.class);
                                             if(temp.getEmail().equals(holder.data.getReceiver().getEmail()))
                                                 refUser.child(dsp.getKey()).child("negBalance").setValue(temp.getNegBalance()-holder.data.getAmount());
