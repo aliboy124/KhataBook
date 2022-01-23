@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         TextView nametextview = findViewById(R.id.name);
         TextView pos = findViewById(R.id.positive);
         TextView neg = findViewById(R.id.negative);
+        Button showAll = findViewById(R.id.showall);
 
         User currentUser = new User();
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                transactionList.clear();
+                transactionList = new ArrayList<Transaction>();
 
                 for (DataSnapshot dsp : snapshot.getChildren()) {
                     transactionList.add((dsp.getValue(Transaction.class)));
@@ -125,6 +126,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setTransactionListAdapter();
+
+        // show all button
+        showAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        transactionList = new ArrayList<Transaction>();
+
+                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                            transactionList.add((dsp.getValue(Transaction.class)));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                setTransactionListAdapter();
+            }
+        });
+
     }
 
     public void setTransactionListAdapter(){

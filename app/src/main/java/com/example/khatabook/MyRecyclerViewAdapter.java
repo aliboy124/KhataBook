@@ -34,7 +34,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.data = transactionList.get(position);
         holder.nameT.setText(String.valueOf(holder.data.getReceiver().name));
-        holder.emailT.setText(String.valueOf(holder.data.getReceiver()));
+        holder.emailT.setText(String.valueOf(holder.data.getReceiver().getEmail()));
         holder.amountT.setText(String.valueOf(holder.data.getAmount()));
         //holder.timeT.setText(String.valueOf(holder.data.getTime()));
         holder.approvedT.setChecked(holder.data.isApproved());
