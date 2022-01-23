@@ -120,7 +120,10 @@ public class MainActivity extends AppCompatActivity {
                 transactionList = new ArrayList<Transaction>();
 
                 for (DataSnapshot dsp : snapshot.getChildren()) {
-                    transactionList.add((dsp.getValue(Transaction.class)));
+                    Transaction temp = dsp.getValue(Transaction.class);
+                    if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                        temp.getReceiver().getEmail().equals(currentUser.getEmail())))
+                    transactionList.add(temp);
                 }
                 setTransactionListAdapter();
             }
@@ -142,7 +145,10 @@ public class MainActivity extends AppCompatActivity {
                         transactionList = new ArrayList<Transaction>();
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                            transactionList.add((dsp.getValue(Transaction.class)));
+                            Transaction temp = dsp.getValue(Transaction.class);
+                            if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                                    temp.getReceiver().getEmail().equals(currentUser.getEmail())))
+                            transactionList.add(temp);
                         }
                         setTransactionListAdapter();
                     }
@@ -167,8 +173,11 @@ public class MainActivity extends AppCompatActivity {
                         transactionList = new ArrayList<Transaction>();
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                            if(!dsp.getValue(Transaction.class).isApproved())
-                                transactionList.add((dsp.getValue(Transaction.class)));
+                            Transaction temp = dsp.getValue(Transaction.class);
+                            if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                                    temp.getReceiver().getEmail().equals(currentUser.getEmail()))&&
+                                !temp.isApproved())
+                                transactionList.add(temp);
                         }
                         setTransactionListAdapter();
                     }
@@ -192,8 +201,11 @@ public class MainActivity extends AppCompatActivity {
                         transactionList = new ArrayList<Transaction>();
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                            if(!dsp.getValue(Transaction.class).isPaid())
-                                transactionList.add((dsp.getValue(Transaction.class)));
+                            Transaction temp = dsp.getValue(Transaction.class);
+                            if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                                    temp.getReceiver().getEmail().equals(currentUser.getEmail()))&&
+                                    !temp.isPaid())
+                                transactionList.add(temp);
                         }
                         setTransactionListAdapter();
                     }
@@ -211,11 +223,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void setTransactionListAdapter(){
         recyclerView = findViewById(R.id.recyclerView);
-
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this,currentUser);
         recyclerView.setAdapter(adapter);
+    }
+    public void getUserData(){
+
     }
 }
