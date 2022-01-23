@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot dsp : snapshot.getChildren()) {
                     transactionList.add((dsp.getValue(Transaction.class)));
                 }
+                setTransactionListAdapter();
             }
 
             @Override
@@ -129,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        setTransactionListAdapter();
 
         // show all button
         showAll.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         for (DataSnapshot dsp : snapshot.getChildren()) {
                             transactionList.add((dsp.getValue(Transaction.class)));
                         }
+                        setTransactionListAdapter();
                     }
 
                     @Override
@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                setTransactionListAdapter();
             }
         });
 
@@ -171,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                             if(!dsp.getValue(Transaction.class).isApproved())
                                 transactionList.add((dsp.getValue(Transaction.class)));
                         }
+                        setTransactionListAdapter();
                     }
 
                     @Override
@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                setTransactionListAdapter();
             }
         });
 
@@ -196,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                             if(!dsp.getValue(Transaction.class).isPaid())
                                 transactionList.add((dsp.getValue(Transaction.class)));
                         }
+                        setTransactionListAdapter();
                     }
 
                     @Override
@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                setTransactionListAdapter();
             }
         });
 

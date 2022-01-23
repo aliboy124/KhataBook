@@ -63,6 +63,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                             public void onClick(DialogInterface dialog, int which) {
                                 ref.child(holder.data.getTime()).child("approved").setValue(true);
                                 Toast.makeText(v.getContext(), "Transaction Approved", Toast.LENGTH_SHORT).show();
+
                             }
                         })
 
