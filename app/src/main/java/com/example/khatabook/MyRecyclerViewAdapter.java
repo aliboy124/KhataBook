@@ -2,6 +2,7 @@ package com.example.khatabook;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -49,6 +53,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.paidT.setChecked(holder.data.isPaid());
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+        DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("Users");
 
         // if current user is receiver then show approval dialog
         if(!holder.data.isApproved() && holder.data.getReceiver().getEmail().equals(currentUser.getEmail()))
@@ -63,7 +68,24 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                             public void onClick(DialogInterface dialog, int which) {
                                 ref.child(holder.data.getTime()).child("approved").setValue(true);
                                 Toast.makeText(v.getContext(), "Transaction Approved", Toast.LENGTH_SHORT).show();
+                                refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                                            Log.e("LOOP-ITR-","AHSJHAJSNCLASJ");
+                                            User temp = dsp.getValue(User.class);
+                                            if(temp.getEmail().equals(holder.data.getReceiver().getEmail()))
+                                                refUser.child(dsp.getKey()).child("negBalance").setValue(temp.getNegBalance()-holder.data.getAmount());
+                                            if(temp.getEmail().equals(holder.data.getSender().getEmail()))
+                                            refUser.child(dsp.getKey()).child("posBalance").setValue(temp.getPosBalance()+holder.data.getAmount());
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
                         })
 
@@ -86,6 +108,23 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                                 public void onClick(DialogInterface dialog, int which) {
                                     ref.child(holder.data.getTime()).child("paid").setValue(true);
                                     Toast.makeText(v.getContext(), "Transaction Paid", Toast.LENGTH_SHORT).show();
+                                    refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dsp : snapshot.getChildren()) {
+                                                User temp = dsp.getValue(User.class);
+                                                if(temp.getEmail().equals(holder.data.getReceiver().getEmail()))
+                                                    refUser.child(dsp.getKey()).child("negBalance").setValue(temp.getNegBalance()+holder.data.getAmount());
+                                                if(temp.getEmail().equals(holder.data.getSender().getEmail()))
+                                                    refUser.child(dsp.getKey()).child("posBalance").setValue(temp.getPosBalance()-holder.data.getAmount());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
                             })
 
