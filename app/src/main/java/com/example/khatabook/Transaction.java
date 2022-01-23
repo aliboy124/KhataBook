@@ -28,13 +28,13 @@ public class Transaction {
         this.amount = amount;
     }
 
-//    public LocalDateTime getTime() {
-//        return time;
-//    }
-//
-//    public void setTime(LocalDateTime time) {
-//        this.time = time;
-//    }
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public boolean isApproved() {
         return approved;
@@ -55,15 +55,15 @@ public class Transaction {
     User sender;
     User receiver;
     int amount;
-    //LocalDateTime time;
+    String time;
     boolean approved;
     boolean paid;
 
-    public Transaction(User sender, User receiver, int amount, boolean approved, boolean paid) {
+    public Transaction(User sender, User receiver, int amount,String time, boolean approved, boolean paid) {
         this.sender = sender;
         this.receiver = receiver;
         this.amount = amount;
-        //this.time = time;
+        this.time = time;
         this.approved = approved;
         this.paid = paid;
     }

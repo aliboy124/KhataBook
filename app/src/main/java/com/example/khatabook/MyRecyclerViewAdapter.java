@@ -36,7 +36,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.nameT.setText(String.valueOf(holder.data.getReceiver().name));
         holder.emailT.setText(String.valueOf(holder.data.getReceiver().getEmail()));
         holder.amountT.setText(String.valueOf(holder.data.getAmount()));
-        //holder.timeT.setText(String.valueOf(holder.data.getTime()));
+        holder.timeT.setText(holder.data.getTime());
         holder.approvedT.setChecked(holder.data.isApproved());
         holder.paidT.setChecked(holder.data.isPaid());
     }

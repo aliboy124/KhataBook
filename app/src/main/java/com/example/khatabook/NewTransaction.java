@@ -178,7 +178,7 @@ public class NewTransaction extends AppCompatActivity {
 
                             newTransaction.setApproved(false);
                             newTransaction.setPaid(false);
-                            //newTransaction.setTime(dateTime);
+                            newTransaction.setTime(String.valueOf(dateTime));
 
                             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH:mm:ss");
                             String formatDateTime = dateTime.format(format);

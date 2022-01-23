@@ -209,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void setTransactionListAdapter(){
         recyclerView = findViewById(R.id.recyclerView);
+
+
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
