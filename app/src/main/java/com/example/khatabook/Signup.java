@@ -134,7 +134,7 @@ public class Signup extends AppCompatActivity {
                         else {
                             p.setVisibility(View.GONE);
                             signup.setVisibility(View.VISIBLE);
-                            Toast.makeText(getApplicationContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Account with this email already exists!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
