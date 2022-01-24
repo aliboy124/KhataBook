@@ -10,11 +10,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,9 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
-import android.graphics.Bitmap;
-import android.view.View;
-import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private ProgressBar spinner;
-    private WebView webview;
     List<Transaction> transactionList = new ArrayList<Transaction>();
 
     @SuppressLint("SetTextI18n")
@@ -45,14 +40,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        webview =(WebView)findViewById(R.id.webView);
-        spinner = (ProgressBar)findViewById(R.id.progressBar1);
-        webview.setWebViewClient(new CustomWebViewClient());
-
-
-
-
         FirebaseAuth auth;
         DatabaseReference dbreference;
 
@@ -63,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         TextView pos = findViewById(R.id.positive);
         TextView neg = findViewById(R.id.negative);
         Button showAll = findViewById(R.id.showall);
+        Button showUnapproved = findViewById(R.id.showunapproved);
+        Button showUnpaid = findViewById(R.id.showunpiad);
 
         User currentUser = new User();
 
@@ -142,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
         setTransactionListAdapter();
 
-        LoadRecyclerView();
-
         // show all button
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,56 +156,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+        // show unapproved and show unpaid buttons
+        showUnapproved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        transactionList = new ArrayList<Transaction>();
 
+                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                            if(!dsp.getValue(Transaction.class).isApproved())
+                                transactionList.add((dsp.getValue(Transaction.class)));
+                        }
+                    }
 
-    // This allows for a splash screen
-    // (and hide elements once the page loads)
-    public class CustomWebViewClient extends WebViewClient {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-        @Override
-        public void onPageStarted(WebView webview, String url, Bitmap favicon) {
-            webview.setVisibility(webview.INVISIBLE);
-        }
+                    }
+                });
 
-        @Override
-        public void onPageFinished(WebView view, String url) {
+                setTransactionListAdapter();
+            }
+        });
 
-            spinner.setVisibility(View.GONE);
+        showUnpaid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        transactionList = new ArrayList<Transaction>();
 
-            view.setVisibility(webview.VISIBLE);
-            super.onPageFinished(view, url);
+                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                            if(!dsp.getValue(Transaction.class).isPaid())
+                                transactionList.add((dsp.getValue(Transaction.class)));
+                        }
+                    }
 
-        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                setTransactionListAdapter();
+            }
+        });
+
     }
 
     public void setTransactionListAdapter(){
         recyclerView = findViewById(R.id.recyclerView);
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this);
         recyclerView.setAdapter(adapter);
-    }
-
-    public void LoadRecyclerView(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                transactionList = new ArrayList<Transaction>();
-
-                for (DataSnapshot dsp : snapshot.getChildren()) {
-                    transactionList.add((dsp.getValue(Transaction.class)));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        setTransactionListAdapter();
     }
 }
