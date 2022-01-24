@@ -8,16 +8,15 @@
 
     <TextView
         android:id="@+id/nameT"
-        android:layout_width="186dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="1dp"
         android:fontFamily="@font/amaranth_bold"
         android:text="Name"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/emailT"
         app:layout_constraintEnd_toStartOf="@+id/approvedT"
         app:layout_constraintHorizontal_bias="0.0"
@@ -26,26 +25,23 @@
 
     <TextView
         android:id="@+id/emailT"
-        android:layout_width="189dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/amaranth_bold"
         android:text="abc@gmail.com"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/paidT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameT" />
 
     <TextView
         android:id="@+id/amountT"
-        android:layout_width="90dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="5dp"
         android:text="Rs. 0"
         android:textAlignment="center"
         android:textColor="#4CAF50"
@@ -57,26 +53,21 @@
 
     <TextView
         android:id="@+id/timeT"
-        android:layout_width="91dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="You'll pay"
         android:textAlignment="center"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/approvedT"
         app:layout_constraintTop_toBottomOf="@+id/amountT" />
 
     <CheckBox
         android:id="@+id/approvedT"
-        android:layout_width="95dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginEnd="20dp"
         android:clickable="false"
         android:text="Approved"
         app:layout_constraintBottom_toTopOf="@+id/paidT"
@@ -85,14 +76,21 @@
 
     <CheckBox
         android:id="@+id/paidT"
-        android:layout_width="90dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="13dp"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
         android:clickable="false"
         android:text="Paid"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/timeT"
+        app:layout_constraintStart_toStartOf="@+id/approvedT"
         app:layout_constraintTop_toBottomOf="@+id/approvedT" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeT" />
 </androidx.constraintlayout.widget.ConstraintLayout>
