@@ -184,6 +184,7 @@ public class NewTransaction extends AppCompatActivity {
                             newTransaction.setTime(formatDateTime);
                             database.child(formatDateTime).setValue(newTransaction);
                             Toast.makeText(getApplicationContext(), "Transaction created!", Toast.LENGTH_SHORT).show();
+                            finish();
 
                         }
                         else {
