@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    public User currentUser;
 
     List<Transaction> transactionList = new ArrayList<Transaction>();
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Button showUnapproved = findViewById(R.id.showunapproved);
         Button showUnpaid = findViewById(R.id.showunpiad);
 
-        User currentUser = new User();
+        currentUser = new User();
 
         auth = FirebaseAuth.getInstance();
 
@@ -113,14 +114,18 @@ public class MainActivity extends AppCompatActivity {
 
         //// setting transaction list using custom method call at the end and data from firebase
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 transactionList = new ArrayList<Transaction>();
 
                 for (DataSnapshot dsp : snapshot.getChildren()) {
-                    transactionList.add((dsp.getValue(Transaction.class)));
+                    Transaction temp = dsp.getValue(Transaction.class);
+                    if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                        temp.getReceiver().getEmail().equals(currentUser.getEmail())))
+                    transactionList.add(temp);
                 }
+                setTransactionListAdapter();
             }
 
             @Override
@@ -129,21 +134,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        setTransactionListAdapter();
-
         // show all button
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         transactionList = new ArrayList<Transaction>();
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                            transactionList.add((dsp.getValue(Transaction.class)));
+                            Transaction temp = dsp.getValue(Transaction.class);
+                            if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                                    temp.getReceiver().getEmail().equals(currentUser.getEmail())))
+                            transactionList.add(temp);
                         }
+                        setTransactionListAdapter();
                     }
 
                     @Override
@@ -152,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                setTransactionListAdapter();
             }
         });
 
@@ -161,15 +167,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         transactionList = new ArrayList<Transaction>();
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                            if(!dsp.getValue(Transaction.class).isApproved())
-                                transactionList.add((dsp.getValue(Transaction.class)));
+                            Transaction temp = dsp.getValue(Transaction.class);
+                            if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                                    temp.getReceiver().getEmail().equals(currentUser.getEmail()))&&
+                                !temp.isApproved())
+                                transactionList.add(temp);
                         }
+                        setTransactionListAdapter();
                     }
 
                     @Override
@@ -178,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                setTransactionListAdapter();
             }
         });
 
@@ -186,15 +195,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         transactionList = new ArrayList<Transaction>();
 
                         for (DataSnapshot dsp : snapshot.getChildren()) {
-                            if(!dsp.getValue(Transaction.class).isPaid())
-                                transactionList.add((dsp.getValue(Transaction.class)));
+                            Transaction temp = dsp.getValue(Transaction.class);
+                            if((temp.getSender().getEmail().equals(currentUser.getEmail())||
+                                    temp.getReceiver().getEmail().equals(currentUser.getEmail()))&&
+                                    !temp.isPaid())
+                                transactionList.add(temp);
                         }
+                        setTransactionListAdapter();
                     }
 
                     @Override
@@ -203,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                setTransactionListAdapter();
             }
         });
 
@@ -211,11 +223,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void setTransactionListAdapter(){
         recyclerView = findViewById(R.id.recyclerView);
-
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this);
+        adapter = new MyRecyclerViewAdapter(transactionList,MainActivity.this,currentUser);
         recyclerView.setAdapter(adapter);
+    }
+    public void getUserData(){
+
     }
 }

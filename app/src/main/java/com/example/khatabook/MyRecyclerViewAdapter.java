@@ -2,6 +2,7 @@ package com.example.khatabook;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
 
     List<Transaction> transactionList;
     Activity mAct;
+    User currentUser;
 
-    public MyRecyclerViewAdapter(List<Transaction> transactionList, Activity mAct) {
+    public MyRecyclerViewAdapter(List<Transaction> transactionList, Activity mAct, User currentUser) {
         this.transactionList = transactionList;
         this.mAct = mAct;
+        this.currentUser = currentUser;
     }
 
     @NonNull
@@ -43,6 +52,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.approvedT.setChecked(holder.data.isApproved());
         holder.paidT.setChecked(holder.data.isPaid());
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Transactions");
+        DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        // if current user is receiver then show approval dialog
+        if(!holder.data.isApproved() && holder.data.getReceiver().getEmail().equals(currentUser.getEmail()))
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,8 +66,26 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(v.getContext(), "HEHAS", Toast.LENGTH_SHORT).show();
-                            }//
+                                ref.child(holder.data.getTime()).child("approved").setValue(true);
+                                Toast.makeText(v.getContext(), "Transaction Approved", Toast.LENGTH_SHORT).show();
+                                refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (DataSnapshot dsp : snapshot.getChildren()) {
+                                            User temp = dsp.getValue(User.class);
+                                            if(temp.getEmail().equals(holder.data.getReceiver().getEmail()))
+                                                refUser.child(dsp.getKey()).child("negBalance").setValue(temp.getNegBalance()-holder.data.getAmount());
+                                            if(temp.getEmail().equals(holder.data.getSender().getEmail()))
+                                            refUser.child(dsp.getKey()).child("posBalance").setValue(temp.getPosBalance()+holder.data.getAmount());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
                         })
 
                         .setNegativeButton(android.R.string.no, null)
@@ -61,6 +93,45 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         .show();
             }
         });
+        // if current user is sender then show paid dialog
+        if(holder.data.isApproved() &&
+                !holder.data.isPaid() && holder.data.getSender().getEmail().equals(currentUser.getEmail()))
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("Confirm Payment")
+                            .setMessage("Are you sure you want to make this transaction paid?")
+
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ref.child(holder.data.getTime()).child("paid").setValue(true);
+                                    Toast.makeText(v.getContext(), "Transaction Paid", Toast.LENGTH_SHORT).show();
+                                    refUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            for (DataSnapshot dsp : snapshot.getChildren()) {
+                                                User temp = dsp.getValue(User.class);
+                                                if(temp.getEmail().equals(holder.data.getReceiver().getEmail()))
+                                                    refUser.child(dsp.getKey()).child("negBalance").setValue(temp.getNegBalance()+holder.data.getAmount());
+                                                if(temp.getEmail().equals(holder.data.getSender().getEmail()))
+                                                    refUser.child(dsp.getKey()).child("posBalance").setValue(temp.getPosBalance()-holder.data.getAmount());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                }
+                            })
+
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(R.drawable.logo)
+                            .show();
+                }
+            });
     }
 
     @Override
