@@ -129,6 +129,7 @@ public class Signup extends AppCompatActivity {
 
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             Toast.makeText(getApplicationContext(), "Account created!", Toast.LENGTH_SHORT).show();
+                            finish();
 
                         }
                         else {

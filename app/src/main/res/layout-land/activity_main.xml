@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/negative"
-        android:layout_width="364dp"
+        android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginTop="8dp"
         android:background="#FFFFFF"
@@ -17,7 +17,9 @@
         android:textAlignment="center"
         android:textColor="#F44336"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/tabs"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/positive"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
@@ -40,7 +42,7 @@
 
     <TextView
         android:id="@+id/positive"
-        android:layout_width="364dp"
+        android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginTop="8dp"
         android:background="#FFFFFF"
@@ -49,8 +51,10 @@
         android:textAlignment="center"
         android:textColor="#4CAF50"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:layout_editor_absoluteX="3dp" />
+        app:layout_constraintBottom_toTopOf="@+id/tabs"
+        app:layout_constraintEnd_toStartOf="@+id/negative"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <LinearLayout
         android:id="@+id/tabs"
@@ -121,9 +125,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="730dp"
-        android:layout_height="198dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
     <Button

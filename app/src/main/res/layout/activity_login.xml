@@ -16,15 +16,15 @@
         android:textColor="#F44336"
         android:textSize="34sp"
         android:textStyle="bold"
-        android:typeface="normal"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/email"
-        android:layout_width="409dp"
-        android:layout_height="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/amaranth_bold"
         android:text="Email"
@@ -38,7 +38,7 @@
 
     <TextView
         android:id="@+id/password"
-        android:layout_width="409dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/amaranth_bold"
         android:text="Password"
@@ -51,7 +51,7 @@
 
     <EditText
         android:id="@+id/EmailAddress"
-        android:layout_width="409dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:ems="10"
@@ -63,7 +63,7 @@
 
     <EditText
         android:id="@+id/PasswordText"
-        android:layout_width="409dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
