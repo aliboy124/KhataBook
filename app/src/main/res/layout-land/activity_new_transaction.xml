@@ -50,10 +50,11 @@
 
     <EditText
         android:id="@+id/senderr"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,10 +62,11 @@
 
     <EditText
         android:id="@+id/receiver"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,10 +74,11 @@
 
     <EditText
         android:id="@+id/amountt"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,8 +86,8 @@
 
     <Button
         android:id="@+id/submit"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
         android:fontFamily="@font/amaranth_bold"
         android:text="Submit"
