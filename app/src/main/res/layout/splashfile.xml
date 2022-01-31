@@ -7,12 +7,33 @@
     android:background="#290430">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="394dp"
-        android:layout_height="401dp"
+        android:id="@+id/splashimageview"
+        android:layout_width="376dp"
+        android:layout_height="371dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginBottom="30dp"
         android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/splashtextview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.284" />
+
+    <TextView
+        android:id="@+id/splashtextview"
+        android:layout_width="371dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="121dp"
+        android:fontFamily="@font/amaranth_bold"
+        android:padding="10dp"
+        android:text="KhataBook \n Bookkeeeping made easy"
+        android:textAlignment="center"
+        android:textColor="#FF9800"
+        android:textSize="35sp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/splashimageview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
